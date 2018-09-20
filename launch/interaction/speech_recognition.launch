@@ -2,13 +2,22 @@
 <launch>
 
     <arg name="engine" default="$(find vendor)/precise-engine/precise-engine"/> 
-    <arg name="wake_word_model" default="$(find wake_word_engine)/pepper.pb"/> 
+    <arg name="wake_word_model" default="$(find wake_word_engine)/pepper-v1.pb"/> 
 
-	<group ns="hmi">
+	<group ns="robot">
 		<!-- If we are on the real robot, launch the server, otherwise a dummy -->
-		<group>
+		
+		<group if="$(optenv ROBOT_REAL false)">
 			<node name="audio_engine" pkg="audio_engine" type="test.py" output="screen">
 			</node>
+		</group>
+		
+		<group unless="$(optenv ROBOT_REAL true)">
+			<node name="audio_engine" pkg="audio_engine" type="main.py" output="screen">
+			</node>
+		</group>
+
+		<group>
 			<node name="speech_recognition_pkg" pkg="speech_recognition_pkg" type="recognize_audio.py" output="screen">
 				<!-- <rosparam command="load" file="$(env BRINGUP_PATH)/parameters/interaction/speech_client.yaml" /> -->
 			</node>

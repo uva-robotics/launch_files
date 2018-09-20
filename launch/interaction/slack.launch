@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Slack ROS Bridge -->
+    <node name="slack_ros_bridge" pkg="slack_ros" type="main.py" output="screen" respawn="true">
+    </node>
+</launch>
