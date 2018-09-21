@@ -1,0 +1,30 @@
+  <launch>
+
+  	<arg name="nao_ip"/>
+    <arg name="engine" default="$(find vendor)/precise-engine/precise-engine"/> 
+    <arg name="wake_word_model" default="$(find wake_word_engine)/pepper-v1-src.pb"/> 
+
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" > 
+        <arg name="port" value="9090"/>
+    </include>
+
+    <group ns="interaction">
+        <include file="$(find launch_files)/launch/interaction/webserver.launch" > 
+            <arg name="nao_ip" value="$(arg nao_ip)"/>
+        </include>
+
+        <include file="$(find launch_files)/launch/interaction/speech_recognition.launch" > 
+            <arg name="nao_ip" value="$(arg nao_ip)"/>
+            <arg name="engine" value="$(arg engine)"/>
+            <arg name="wake_word_model" value="$(arg wake_word_model)"/>
+        </include>
+
+        <include file="$(find launch_files)/launch/interaction/slack.launch" > 
+        </include>
+    </group>
+
+    <group ns="world">
+        <include file="$(find launch_files)/launch/world/image_recognition.launch" > 
+        </include>
+    </group>
+  </launch>

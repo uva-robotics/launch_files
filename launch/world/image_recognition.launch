@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="face_recognition" pkg="face_recognition_cv" type="main.py" output="screen" respawn="true">
+    </node>
+    <!-- <node name="object_recognition_tensorflow" pkg="object_recognition_tensorflow" type="main_darknet.py" output="screen" respawn="true">
+    </node> -->
+</launch>

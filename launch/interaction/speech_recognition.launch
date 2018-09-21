@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <launch>
 
-    <arg name="engine" default="$(find vendor)/precise-engine/precise-engine"/> 
-    <arg name="wake_word_model" default="$(find wake_word_engine)/pepper-v1.pb"/> 
 	<arg name="nao_ip"/>
+    <arg name="engine" default="$(find vendor)/precise-engine/precise-engine"/> 
+    <arg name="wake_word_model" default="$(find wake_word_engine)/pepper-v1-src.pb"/> 
 
 	<include file="$(find nao_apps)/launch/leds.launch">
 		<arg name="nao_ip" value="$(arg nao_ip)" />
 	</include>
 
 
-	<group ns="robot">
+	<group ns="speech_recognition">
 		<!-- If we are on the real robot, launch the server, otherwise a dummy -->
 		
-		<!-- <group if="$(optenv ROBOT_REAL false)">
+		<!-- <group if="$(optenv ROBOT_REAL 0)">
 			<node name="audio_engine" pkg="audio_engine" type="test.py" output="screen">
 			</node>
 		</group> -->
 		
-		<group if="$(optenv ROBOT_REAL true)">
+		<group if="$(optenv ROBOT_REAL 1)">
 			<node name="audio_engine" pkg="audio_engine" type="main.py" output="screen">
 			</node>
 		</group>
@@ -30,8 +30,11 @@
             <node name="wake_word_engine" pkg="wake_word_engine" type="wake_word_test.py" output="screen">
                 <param name="engine" value="$(arg engine)"/>
                 <param name="wake_word_model" value="$(arg wake_word_model)"/>
-                <!-- <rosparam command="load" file="$(env BRINGUP_PATH)/parameters/interaction/speech_client.yaml" /> -->
 			</node>
+
+			<node name="wake_word_trainer" pkg="wake_word_engine" type="wake_word_trainer.py" output="screen">
+			</node>
+
             <node name="dialogflow" pkg="dialogflow" type="main.py" output="screen">
 			</node>
 			<node name="dialogflow_webhook" pkg="dialogflow" type="webhook.py" output="screen">
