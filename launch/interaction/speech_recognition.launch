@@ -3,16 +3,22 @@
 
     <arg name="engine" default="$(find vendor)/precise-engine/precise-engine"/> 
     <arg name="wake_word_model" default="$(find wake_word_engine)/pepper-v1.pb"/> 
+	<arg name="nao_ip"/>
+
+	<include file="$(find nao_apps)/launch/leds.launch">
+		<arg name="nao_ip" value="$(arg nao_ip)" />
+	</include>
+
 
 	<group ns="robot">
 		<!-- If we are on the real robot, launch the server, otherwise a dummy -->
 		
-		<group if="$(optenv ROBOT_REAL false)">
+		<!-- <group if="$(optenv ROBOT_REAL false)">
 			<node name="audio_engine" pkg="audio_engine" type="test.py" output="screen">
 			</node>
-		</group>
+		</group> -->
 		
-		<group unless="$(optenv ROBOT_REAL true)">
+		<group if="$(optenv ROBOT_REAL true)">
 			<node name="audio_engine" pkg="audio_engine" type="main.py" output="screen">
 			</node>
 		</group>
