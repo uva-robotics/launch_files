@@ -24,7 +24,7 @@
 		</group>
 
 		<group>
-			<node name="speech_recognition_pkg" pkg="speech_recognition_pkg" type="recognize_audio.py" output="screen">
+			<node name="google_speech_recognition" pkg="google_speech_recognition" type="recognize_audio.py" output="screen">
 				<!-- <rosparam command="load" file="$(env BRINGUP_PATH)/parameters/interaction/speech_client.yaml" /> -->
 			</node>
             <node name="wake_word_engine" pkg="wake_word_engine" type="wake_word_test.py" output="screen">
